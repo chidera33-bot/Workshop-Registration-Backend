@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Registrations</title></head>
+<body>
+
+<nav>
+    <strong>U-WRS</strong> |
+    <a href="/">Home</a>
+    | <a href="/admin/workshops">Admin</a>
+    | <form th:action="@{/logout}" method="post" style="display:inline">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+
+<hr>
+<h2>Registrations for: <span th:text="${workshop.title}"></span></h2>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Participant Name</th>
+            <th>Email</th>
+            <th>Registered At</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="reg : ${registrations}">
+            <td th:text="${reg.userName}"></td>
+            <td th:text="${reg.userEmail}"></td>
+            <td th:text="${#temporals.format(reg.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${reg.status}"></td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+<a th:href="@{/admin/workshops}">Back to Workshops</a>
+
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Workshop Form</title></head>
+<body>
+
+<nav>
+    <strong>U-WRS</strong> |
+    <a href="/">Home</a>
+    | <a href="/admin/workshops">Admin</a>
+    | <form th:action="@{/logout}" method="post" style="display:inline">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+
+<hr>
+<h2 th:text="${workshopId != null} ? 'Edit Workshop' : 'Create Workshop'"></h2>
+
+<form th:action="${workshopId != null} ? @{/admin/workshops/{id}/edit(id=${workshopId})} : @{/admin/workshops/new}"
+      th:object="${workshopRequest}" method="post">
+
+    <label>Title:
+        <input type="text" th:field="*{title}">
+    </label>
+    <span th:errors="*{title}" style="color:red"></span><br>
+
+    <label>Description:
+        <input type="text" th:field="*{description}">
+    </label>
+    <span th:errors="*{description}" style="color:red"></span><br>
+
+    <label>Location:
+        <input type="text" th:field="*{location}">
+    </label>
+    <span th:errors="*{location}" style="color:red"></span><br>
+
+    <label>Start Date/Time (e.g. 2026-06-01T10:00):
+        <input type="datetime-local" th:field="*{startDatetime}">
+    </label>
+    <span th:errors="*{startDatetime}" style="color:red"></span><br>
+
+    <label>Total Seats:
+        <input type="number" th:field="*{totalSeats}">
+    </label>
+    <span th:errors="*{totalSeats}" style="color:red"></span><br>
+
+    <button type="submit">Save</button>
+    <a href="/admin/workshops">Cancel</a>
+</form>
+
+</body>
+</html>
+

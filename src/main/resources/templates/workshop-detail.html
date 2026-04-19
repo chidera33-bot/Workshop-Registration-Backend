@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><title>Workshop Details</title></head>
+<body>
+
+<nav>
+    <strong>U-WRS</strong> |
+    <a href="/">Home</a>
+    <span sec:authorize="isAuthenticated()">
+        | <a href="/my/registrations">My Registrations</a>
+        | <span sec:authorize="hasRole('ADMIN')"><a href="/admin/workshops">Admin</a> |</span>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit">Logout</button>
+        </form>
+    </span>
+    <span sec:authorize="!isAuthenticated()">
+        | <a href="/login">Login</a>
+        | <a href="/register">Register</a>
+    </span>
+</nav>
+
+<hr>
+<h2 th:text="${workshop.title}"></h2>
+<p>Location: <span th:text="${workshop.location}"></span></p>
+<p>Start: <span th:text="${#temporals.format(workshop.startDatetime, 'yyyy-MM-dd HH:mm')}"></span></p>
+<p>Seats Remaining: <span th:text="${workshop.seatsRemaining}"></span></p>
+<p>Status: <span th:text="${workshop.status}"></span></p>
+<p th:text="${workshop.description}"></p>
+
+<div th:if="${error}" th:text="${error}" style="color:red"></div>
+<div th:if="${success}" th:text="${success}" style="color:green"></div>
+
+<div sec:authorize="isAuthenticated()">
+    <form th:action="@{/workshops/{id}/register(id=${workshop.id})}" method="post">
+        <button type="submit"
+                th:disabled="${workshop.seatsRemaining == 0 or workshop.status.name() == 'CANCELLED'}">
+            Register
+        </button>
+    </form>
+</div>
+<div sec:authorize="!isAuthenticated()">
+    <a href="/login">Login to register</a>
+</div>
+
+</body>
+</html>
+

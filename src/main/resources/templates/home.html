@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><title>U-WRS Home</title></head>
+<body>
+
+<nav>
+    <strong>U-WRS</strong> |
+    <a href="/">Home</a>
+    <span sec:authorize="isAuthenticated()">
+        | <a href="/my/registrations">My Registrations</a>
+        | <span sec:authorize="hasRole('ADMIN')"><a href="/admin/workshops">Admin</a> |</span>
+        <form th:action="@{/logout}" method="post" style="display:inline">
+            <button type="submit">Logout</button>
+        </form>
+    </span>
+    <span sec:authorize="!isAuthenticated()">
+        | <a href="/login">Login</a>
+        | <a href="/register">Register</a>
+    </span>
+</nav>
+
+<hr>
+<h2>Upcoming Workshops</h2>
+
+<div th:if="${successMsg}" th:text="${successMsg}" style="color:green"></div>
+
+<div th:each="workshop : ${workshops}">
+    <h3 th:text="${workshop.title}"></h3>
+    <p>Location: <span th:text="${workshop.location}"></span></p>
+    <p>Date/Time: <span th:text="${#temporals.format(workshop.startDatetime, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <p>Seats Remaining: <span th:text="${workshop.seatsRemaining}"></span></p>
+    <p>Status: <span th:text="${workshop.status}"></span></p>
+    <a th:href="@{/workshops/{id}(id=${workshop.id})}">View Details</a>
+    <hr>
+</div>
+
+</body>
+</html>
+

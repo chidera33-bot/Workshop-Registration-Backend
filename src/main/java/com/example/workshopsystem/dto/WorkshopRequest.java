@@ -1,10 +1,10 @@
 package com.example.workshopsystem.dto;
 
-import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class WorkshopRequest {
 
@@ -17,54 +17,25 @@ public class WorkshopRequest {
     @NotBlank(message = "Location is required")
     private String location;
 
-    @NotNull(message = "Date is required")
-    @FutureOrPresent(message = "Date must be today or in the future")
-    private LocalDate date;
+    @NotNull(message = "Start date/time is required")
+    @Future(message = "Start date/time must be in the future")
+    private LocalDateTime startDatetime;
 
-    @NotNull(message = "Capacity is required")
-    @Min(value = 1, message = "Capacity must be at least 1")
-    private Integer capacity;
+    @NotNull(message = "Total seats is required")
+    @Min(value = 1, message = "Total seats must be at least 1")
+    private Integer totalSeats;
 
-    public WorkshopRequest() {
-    }
+    public WorkshopRequest() {}
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
+    public String getDescription() { return description; }
+    public String getLocation() { return location; }
+    public LocalDateTime getStartDatetime() { return startDatetime; }
+    public Integer getTotalSeats() { return totalSeats; }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public Integer getCapacity() {
-        return capacity;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
+    public void setTitle(String title) { this.title = title; }
+    public void setDescription(String description) { this.description = description; }
+    public void setLocation(String location) { this.location = location; }
+    public void setStartDatetime(LocalDateTime startDatetime) { this.startDatetime = startDatetime; }
+    public void setTotalSeats(Integer totalSeats) { this.totalSeats = totalSeats; }
 }
