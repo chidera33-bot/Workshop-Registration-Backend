@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Admin - Workshops</title></head>
+<body>
+
+<nav>
+    <strong>U-WRS</strong> |
+    <a href="/">Home</a>
+    | <a href="/admin/workshops">Admin</a>
+    | <form th:action="@{/logout}" method="post" style="display:inline">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+
+<hr>
+<h2>Admin: Manage Workshops</h2>
+
+<div th:if="${error}" th:text="${error}" style="color:red"></div>
+<div th:if="${success}" th:text="${success}" style="color:green"></div>
+
+<a href="/admin/workshops/new">Create New Workshop</a>
+
+<br><br>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Start Date/Time</th>
+            <th>Seats Remaining</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="workshop : ${workshops}">
+            <td th:text="${workshop.title}"></td>
+            <td th:text="${#temporals.format(workshop.startDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${workshop.seatsRemaining}"></td>
+            <td th:text="${workshop.status}"></td>
+            <td>
+                <a th:href="@{/admin/workshops/{id}/edit(id=${workshop.id})}">Edit</a>
+                |
+                <form th:action="@{/admin/workshops/{id}/cancel(id=${workshop.id})}"
+                      method="post" style="display:inline">
+                    <button type="submit">Cancel</button>
+                </form>
+                |
+                <a th:href="@{/admin/workshops/{id}/registrations(id=${workshop.id})}">Registrations</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+

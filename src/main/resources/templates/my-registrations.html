@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head><title>My Registrations</title></head>
+<body>
+
+<nav>
+    <strong>U-WRS</strong> |
+    <a href="/">Home</a>
+    | <a href="/my/registrations">My Registrations</a>
+    | <form th:action="@{/logout}" method="post" style="display:inline">
+        <button type="submit">Logout</button>
+    </form>
+</nav>
+
+<hr>
+<h2>My Registrations</h2>
+
+<div th:if="${error}" th:text="${error}" style="color:red"></div>
+<div th:if="${success}" th:text="${success}" style="color:green"></div>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>Workshop</th>
+            <th>Date/Time</th>
+            <th>Registered At</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="reg : ${registrations}">
+            <td th:text="${reg.workshopTitle}"></td>
+            <td th:text="${#temporals.format(reg.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#temporals.format(reg.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${reg.status}"></td>
+            <td>
+                <form th:if="${reg.status.name() == 'ACTIVE'}"
+                      th:action="@{/my/registrations/{id}/cancel(id=${reg.id})}" method="post">
+                    <button type="submit">Cancel</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
+

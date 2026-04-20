@@ -15,7 +15,14 @@ public class Registration {
     private Long id;
 
     @Column(nullable = false)
-    private LocalDateTime registrationDate;
+    private LocalDateTime createdAt;
+
+    @Column
+    private LocalDateTime cancelledAt;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private RegistrationStatus status = RegistrationStatus.ACTIVE;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -28,18 +35,20 @@ public class Registration {
     public Registration() {
     }
 
-    public Registration(LocalDateTime registrationDate, User user, Workshop workshop) {
-        this.registrationDate = registrationDate;
-        this.user = user;
-        this.workshop = workshop;
-    }
-
     public Long getId() {
         return id;
     }
 
-    public LocalDateTime getRegistrationDate() {
-        return registrationDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getCancelledAt() {
+        return cancelledAt;
+    }
+
+    public RegistrationStatus getStatus() {
+        return status;
     }
 
     public User getUser() {
@@ -54,8 +63,16 @@ public class Registration {
         this.id = id;
     }
 
-    public void setRegistrationDate(LocalDateTime registrationDate) {
-        this.registrationDate = registrationDate;
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setCancelledAt(LocalDateTime cancelledAt) {
+        this.cancelledAt = cancelledAt;
+    }
+
+    public void setStatus(RegistrationStatus status) {
+        this.status = status;
     }
 
     public void setUser(User user) {

@@ -1,7 +1,7 @@
 package com.example.workshopsystem.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,24 +22,23 @@ public class Workshop {
     @Column(nullable = false)
     private String location;
 
-    @Column(nullable = false)
-    private LocalDate date;
+    @Column(name = "start_datetime", nullable = false)
+    private LocalDateTime startDatetime;
 
     @Column(nullable = false)
-    private Integer capacity;
+    private Integer totalSeats;
+
+    @Column(nullable = false)
+    private Integer seatsRemaining;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private WorkshopStatus status = WorkshopStatus.ACTIVE;
 
     @OneToMany(mappedBy = "workshop", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
 
     public Workshop() {
-    }
-
-    public Workshop(String title, String description, String location, LocalDate date, Integer capacity) {
-        this.title = title;
-        this.description = description;
-        this.location = location;
-        this.date = date;
-        this.capacity = capacity;
     }
 
     public Long getId() {
@@ -58,12 +57,20 @@ public class Workshop {
         return location;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getStartDatetime() {
+        return startDatetime;
     }
 
-    public Integer getCapacity() {
-        return capacity;
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+    public Integer getSeatsRemaining() {
+        return seatsRemaining;
+    }
+
+    public WorkshopStatus getStatus() {
+        return status;
     }
 
     public List<Registration> getRegistrations() {
@@ -86,12 +93,20 @@ public class Workshop {
         this.location = location;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStartDatetime(LocalDateTime startDatetime) {
+        this.startDatetime = startDatetime;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
+    public void setTotalSeats(Integer totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public void setSeatsRemaining(Integer seatsRemaining) {
+        this.seatsRemaining = seatsRemaining;
+    }
+
+    public void setStatus(WorkshopStatus status) {
+        this.status = status;
     }
 
     public void setRegistrations(List<Registration> registrations) {
